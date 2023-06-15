@@ -3,9 +3,15 @@ package com.example.chatapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +32,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
