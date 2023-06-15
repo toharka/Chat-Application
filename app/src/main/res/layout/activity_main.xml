@@ -58,6 +58,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="5dp"
+            android:clickable="true"
             android:text="Already Have Account? Click Here!"
             android:textColor="#D200B9"/>
 
