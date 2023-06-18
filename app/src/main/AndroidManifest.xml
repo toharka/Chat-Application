@@ -15,23 +15,18 @@
         android:theme="@style/Theme.ChatApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
-        <activity android:name=".SignInActivity"
-            android:exported="true">
 
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity android:name=".Contact" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
         </activity>
-        <activity
-            android:name=".Contact">
+        <activity android:name=".SignInActivity" android:exported="true">
         </activity>
-        <activity
-            android:name=".Chat">
+        <activity android:name=".Chat" android:exported="true">
         </activity>
     </application>
 

@@ -19,21 +19,5 @@ public class Contact extends AppCompatActivity {
         return true;
     }
 
-    //@Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.settings:
-//                // handle settings click
-//                break;
-//            case R.id.groupChat:
-//                // handle groupChat click
-//                break;
-//            case R.id.logout:
-//                // handle logout click
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
 }
