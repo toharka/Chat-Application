@@ -1,20 +1,21 @@
 package com.example.chatapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import androidx.appcompat.app.AppCompatActivity;
+
+import Api.ApiClient;
+import models.User;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,18 +53,32 @@ public class MainActivity extends AppCompatActivity {
                 } else if (!txtPassword.getText().toString()
                         .equals(txtPasswordConf.getText().toString())) {
                     Toast.makeText(MainActivity.this, "password confirmation unsuccessful", Toast.LENGTH_SHORT).show();
+                    System.out.println("blop1");
                 }
 //                else if () {
 //                    //user exist
 //                }
+                User user = new User("aaa", "1234", "mydisplayName", "myprofilepic");
+                Call<ResponseBody> call = ApiClient.getInstance().getApiInterface().createUser(user);
+
+                System.out.println("blop");
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        // Handle response
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        // Handle failure
+                    }
+
+                });
             }
+
         });
-
     }
-
-
 }
-
 
 
 
