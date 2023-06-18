@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".SignInActivity"
     android:background="@drawable/bg"
     android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:cropToPadding="true"
             app:srcCompat="@drawable/img_1" />
 
@@ -51,72 +51,31 @@
             android:padding="9dp"
             android:textColor="@color/black" />
 
-        <EditText
-            android:id="@+id/txtPasswordConf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Password Confirmation"
-            android:inputType="textPassword"
-            android:padding="9dp"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/txtNicName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:hint="Display Name"
-            android:inputType="textPersonName"
-            android:padding="9dp"
-            android:textColor="@color/black" />
-
-        <ImageView
-            android:id="@+id/ProfilePic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:padding="3dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_image"
-            app:tint="#D200B9" />
-
-        <Button
-            android:id="@+id/selectButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#D200B9"
-            android:onClick="selectPhoto"
-            android:text="Upload Profile Picture" />
-
         <TextView
-            android:id="@+id/txtAlreadyHave"
+            android:id="@+id/txtClickSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:clickable="true"
             android:gravity="center"
             android:padding="5dp"
-            android:paddingTop="5dp"
-            android:text="Already Have Account? Click Here!"
+            android:clickable="true"
+            android:text="Click Here to Sign Up!"
             android:textColor="#D200B9" />
 
 
         <Button
-            android:id="@+id/btnSignup"
+            android:id="@+id/btnSignin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="#D200B9"
+            android:clickable="true"
+            android:contextClickable="true"
             android:gravity="center"
             android:padding="15dp"
-            android:text="Sign Up"
+            android:text="Sign In"
             android:textAllCaps="false" />
 
     </LinearLayout>
-
 
 </LinearLayout>
