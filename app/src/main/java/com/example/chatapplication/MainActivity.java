@@ -73,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
                             System.out.println("Response received");
                             try {
                                 if (response.body() != null) {
+                                    if (response.code()==200){
+                                        // Define the intent to launch the target activity
+                                        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+
+                                        // Start the target activity
+                                        startActivity(intent);
+
+                                    }
+                                    else {
+                                        Toast.makeText(MainActivity.this, "username is taken", Toast.LENGTH_SHORT).show();
+                                    }
                                     System.out.println("Response body: " + response.body().string());
                                 }
                             } catch (IOException e) {
