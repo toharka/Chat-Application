@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
+
 import Api.ApiClient;
 import models.User;
 import okhttp3.ResponseBody;
@@ -58,25 +60,47 @@ public class MainActivity extends AppCompatActivity {
 //                else if () {
 //                    //user exist
 //                }
-                User user = new User("aaa", "1234", "mydisplayName", "myprofilepic");
+                User user = new User(txtUsername.getText().toString(), txtPassword.getText().toString()
+                        , txtNicName.getText().toString(), "myprofilepic");
                 Call<ResponseBody> call = ApiClient.getInstance().getApiInterface().createUser(user);
 
                 System.out.println("blop");
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        // Handle response
+                        if (response.isSuccessful()) {
+                            // The request was successful, handle the response
+                            System.out.println("Response received");
+                            try {
+                                if (response.body() != null) {
+                                    System.out.println("Response body: " + response.body().string());
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            // The request failed, handle the error
+                            System.out.println("Request failed, HTTP status code: " + response.code());
+                            try {
+                                if (response.errorBody() != null) {
+                                    System.out.println("Error body: " + response.errorBody().string());
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        // Handle failure
+                        // The request did not even reach the server, handle the failure
+                        System.out.println("Request did not reach the server");
+                        t.printStackTrace();
                     }
-
                 });
             }
-
         });
+
     }
 }
 
