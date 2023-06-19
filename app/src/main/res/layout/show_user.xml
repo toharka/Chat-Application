@@ -43,7 +43,7 @@
             android:layout_marginLeft="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
-            android:text="fdssdsf"/>
+            android:text=""/>
 
     </LinearLayout>
 

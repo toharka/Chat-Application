@@ -1,8 +1,10 @@
 package com.example.chatapplication;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +33,7 @@ public class Contact extends AppCompatActivity {
 
         //SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         //tokens = sharedPreferences.getString("token", "");
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTY4NzE4NzM2MywiZXhwIjoxNjg3MTkwOTYzfQ.2d0VyEOQoKkVaAFZURpslH2ivJplDKD-26MoTIQbY_s";
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTY4NzE5MTE3MCwiZXhwIjoxNjg3MTk0NzcwfQ.y9fXaJPYBfjoTbQ8EeDoo86UGJJa8YCc1Z4NGuZFaFg";
         if (token.isEmpty()) {
             Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
             return;
@@ -44,6 +46,21 @@ public class Contact extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        // logout menu item selected
+        if (id == R.id.logout) {
+            Intent intent = new Intent(Contact.this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void getChats() {
