@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ChatApplication" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">#DFA5B9</item>
     </style>
 
     <style name="Theme.ChatApplication" parent="Base.Theme.ChatApplication" />

@@ -1,7 +1,11 @@
 package Api;
 
+import com.example.chatapplication.Chat;
+
+import java.util.List;
 import java.util.Map;
 
+import models.ChatModel;
 import models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,6 +25,11 @@ public interface ApiReq {
 
     @GET("users/{username}")
     Call<ResponseBody> getUserInfo(@Header("Authorization") String token, @Path("username") String username);
+
+
+    @GET("Chats")
+    Call<List<ChatModel>> getChats(@Header("Authorization") String token);
+
 
 
 }
