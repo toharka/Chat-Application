@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import Api.ApiClient;
+import models.AppDB;
 import models.User;
+import models.UserDao;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +33,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    AppDB db;
+    UserDao userDao;
     private static final int GALLERY_REQ_CODE = 1;
     ImageView  ProfilePic;
     Uri profilePicUrl = null;
@@ -37,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "AppDB").build();
+        userDao= db.userDao();
 
         TextView txtAlreadyHave = findViewById(R.id.txtAlreadyHave);
         txtAlreadyHave.setOnClickListener(new View.OnClickListener() {
@@ -91,26 +99,36 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                             if (response.isSuccessful()) {
+
+
+                                new Thread(()->{
+                                    userDao.insert(user);
+                                    runOnUiThread(()->{
+
+                                        Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+
+                                        // Start the target activity
+                                        startActivity(intent);
+
+                                    });
+                                }).start();
                                 // The request was successful, handle the response
-                                System.out.println("Response received");
-                                try {
-                                    if (response.body() != null) {
-                                        if (response.code()==200){
-                                            // Define the intent to launch the target activity
-                                            Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-
-                                            // Start the target activity
-                                            startActivity(intent);
-
-                                        }
-                                        else {
-                                            Toast.makeText(MainActivity.this, "username is taken", Toast.LENGTH_SHORT).show();
-                                        }
-                                        System.out.println("Response body: " + response.body().string());
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+//                                System.out.println("Response received");
+//                                try {
+//                                    if (response.body() != null) {
+//                                        if (response.code()==200){
+//                                            // Define the intent to launch the target activity
+//
+//
+//                                        }
+//                                        else {
+//                                            Toast.makeText(MainActivity.this, "username is taken", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                        System.out.println("Response body: " + response.body().string());
+//                                    }
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
                             } else {
                                 Toast.makeText(MainActivity.this, "username is taken", Toast.LENGTH_SHORT).show();
                                 // The request failed, handle the error

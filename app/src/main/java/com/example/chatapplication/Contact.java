@@ -23,7 +23,6 @@ import java.util.Map;
 import Api.ApiClient;
 import Api.ApiReq;
 import models.ChatModel;
-import models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +45,11 @@ public class Contact extends AppCompatActivity {
         chatRV.setLayoutManager(new LinearLayoutManager(Contact.this)); // Adding a LinearLayoutManager
         chatRV.setAdapter(chatAdapter);
 
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvaGFyIiwiaWF0IjoxNjg3MjU5Nzc3LCJleHAiOjE2ODcyNjMzNzd9.LyYmpALT0qIleKM1mfLPvhd7Nqws3rKPRPblfYLkCBw";
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");  // Use the default value "" or any other value that you wish in case the token is not found
+
+
+
         if (token.isEmpty()) {
             Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
             return;

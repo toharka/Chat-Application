@@ -1,6 +1,7 @@
 package com.example.chatapplication;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +50,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         else {
             holder.lastMessage.setText("No messages yet");
         }
+        byte[] imageBytes = Base64.decode(user.getProfilePic(), Base64.DEFAULT);
+        Glide.with(context).load(imageBytes).into(holder.profile);
         // Use Glide to load the profile picture from its URL
-        Glide.with(context)
-                .load(user.getProfilePic())
-                .into(holder.profile);
+//        Glide.with(context)
+//                .load(user.getProfilePic())
+//                .into(holder.profile);
     }
 
     @Override
