@@ -7,4 +7,6 @@ import androidx.room.RoomDatabase;
 public abstract class AppDB extends RoomDatabase {
 
     public abstract UserDao userDao();
+
+    public abstract ChatsDao chatsDao();
 }

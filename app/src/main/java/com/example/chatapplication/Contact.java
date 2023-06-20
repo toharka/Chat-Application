@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,9 @@ import java.util.Map;
 
 import Api.ApiClient;
 import Api.ApiReq;
+import models.AppDB;
 import models.ChatModel;
+import models.ChatsDao;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,10 +37,16 @@ public class Contact extends AppCompatActivity {
     private List<ChatModel> chatList;
     private com.example.chatapplication.ChatAdapter chatAdapter;
 
+    AppDB db;
+    ChatsDao chatsDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "AppDB").build();
+//        chatsDao= db.chatsDao();
 
         chatRV = findViewById(R.id.chatRV);
         chatList = new ArrayList<>();

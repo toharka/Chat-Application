@@ -74,7 +74,6 @@ public class SignInActivity extends AppCompatActivity {
 
                     if (user == null) {
                         runOnUiThread(()->{
-
                             // Toast or intent navigation here
                             Toast.makeText(SignInActivity.this, "User info incorrect", Toast.LENGTH_SHORT).show();
 
