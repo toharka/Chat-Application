@@ -1,20 +1,29 @@
 package com.example.chatapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import Api.ApiClient;
+import Api.ApiReq;
 import models.ChatModel;
+import models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,6 +32,8 @@ public class Contact extends AppCompatActivity {
     private RecyclerView chatRV;
     private String tokens;
     private String token;
+    private List<ChatModel> chatList;
+    private com.example.chatapplication.ChatAdapter chatAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +41,12 @@ public class Contact extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
 
         chatRV = findViewById(R.id.chatRV);
+        chatList = new ArrayList<>();
+        chatAdapter = new com.example.chatapplication.ChatAdapter(Contact.this, chatList);
+        chatRV.setLayoutManager(new LinearLayoutManager(Contact.this)); // Adding a LinearLayoutManager
+        chatRV.setAdapter(chatAdapter);
 
-        //SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        //tokens = sharedPreferences.getString("token", "");
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTY4NzE5MTE3MCwiZXhwIjoxNjg3MTk0NzcwfQ.y9fXaJPYBfjoTbQ8EeDoo86UGJJa8YCc1Z4NGuZFaFg";
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTY4NzI1NDEwMiwiZXhwIjoxNjg3MjU3NzAyfQ.f0NZsmkY7a8xGgY6DqOToeZORilgQtDgC1xM2ieholY";
         if (token.isEmpty()) {
             Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
             return;
@@ -58,6 +71,52 @@ public class Contact extends AppCompatActivity {
             startActivity(intent);
             finish();
             return true;
+        } else if (id == R.id.groupChat) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter username");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String userName = input.getText().toString();
+                    Map<String, String> user = new HashMap<>();
+                    user.put("username", userName);
+                    ApiReq apiReq = ApiClient.getInstance().getApiInterface();
+                    Call<ChatModel> call = apiReq.createChat("Bearer " + token, user);
+                    call.enqueue(new Callback<ChatModel>() {
+                        @Override
+                        public void onResponse(Call<ChatModel> call, Response<ChatModel> response) {
+                            if(response.isSuccessful()) {
+                                // The chat has been successfully created. Update your UI here.
+                                ChatModel newChat = response.body();
+                                // Add the new chat to your chat list and notify the adapter.
+                                chatList.add(newChat);
+                                chatAdapter.notifyItemInserted(chatList.size() - 1);
+                            } else {
+                                Toast.makeText(Contact.this, "Unable to create chat: " + response.code(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ChatModel> call, Throwable t) {
+                            Toast.makeText(Contact.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            // Show the AlertDialog
+            builder.show();
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -69,12 +128,11 @@ public class Contact extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<ChatModel>> call, Response<List<ChatModel>> response) {
                 if (response.isSuccessful()) {
-                    List<ChatModel> chatList = response.body();
-                    if(chatList != null){
-                        com.example.chatapplication.ChatAdapter chatAdapter = new com.example.chatapplication.ChatAdapter(Contact.this, chatList);
-
-                        chatRV.setLayoutManager(new LinearLayoutManager(Contact.this)); // Adding a LinearLayoutManager
-                        chatRV.setAdapter(chatAdapter);
+                    List<ChatModel> chatResponseList = response.body();
+                    if(chatResponseList != null){
+                        chatList.clear();
+                        chatList.addAll(chatResponseList);
+                        chatAdapter.notifyDataSetChanged();
                     }
                 } else {
                     Toast.makeText(Contact.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();

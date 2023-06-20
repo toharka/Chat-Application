@@ -43,8 +43,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
         // Replace your text views and profile picture with the data from the server
         holder.userName.setText(user.getDisplayName());
-        holder.lastMessage.setText(message.getContent());
-
+        if (message!=null) {
+            holder.lastMessage.setText(message.getContent());
+        }
+        else {
+            holder.lastMessage.setText("No messages yet");
+        }
         // Use Glide to load the profile picture from its URL
         Glide.with(context)
                 .load(user.getProfilePic())

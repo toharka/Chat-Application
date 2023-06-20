@@ -30,6 +30,10 @@ public interface ApiReq {
     @GET("Chats")
     Call<List<ChatModel>> getChats(@Header("Authorization") String token);
 
+    @POST("Chats")
+    Call<ChatModel> createChat(@Header("Authorization") String token, @Body Map<String, String> user);
+
+
 
 
 }
