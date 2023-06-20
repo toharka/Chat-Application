@@ -46,7 +46,7 @@ public class Contact extends AppCompatActivity {
         chatRV.setLayoutManager(new LinearLayoutManager(Contact.this)); // Adding a LinearLayoutManager
         chatRV.setAdapter(chatAdapter);
 
-        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsImlhdCI6MTY4NzI1NDEwMiwiZXhwIjoxNjg3MjU3NzAyfQ.f0NZsmkY7a8xGgY6DqOToeZORilgQtDgC1xM2ieholY";
+        token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRvaGFyIiwiaWF0IjoxNjg3MjU5Nzc3LCJleHAiOjE2ODcyNjMzNzd9.LyYmpALT0qIleKM1mfLPvhd7Nqws3rKPRPblfYLkCBw";
         if (token.isEmpty()) {
             Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
             return;
