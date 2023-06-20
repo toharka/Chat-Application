@@ -3,8 +3,13 @@ package models;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import converters.MessageConverter;
+import converters.UserConverter;
 
 @Entity
+@TypeConverters({UserConverter.class, MessageConverter.class})
 public class ChatModel {
     @PrimaryKey @NonNull
     private int id;
