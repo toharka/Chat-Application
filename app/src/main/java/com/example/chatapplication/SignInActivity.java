@@ -89,7 +89,6 @@ public class SignInActivity extends AppCompatActivity {
                                     startActivity(intent);
                                 }
                                 else {
-
                                     Toast.makeText(SignInActivity.this, "User info incorrect", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -97,6 +96,7 @@ public class SignInActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else {
+                            Toast.makeText(SignInActivity.this, "User info incorrect", Toast.LENGTH_SHORT).show();
                             // Handle unsuccessful response, for example, print the response code
                             System.out.println("Response Code: " + response.code());
                         }

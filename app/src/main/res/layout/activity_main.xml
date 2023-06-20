@@ -81,14 +81,13 @@
             android:layout_height="100dp"
             android:padding="3dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_image"
-            app:tint="#D200B9" />
+            android:src="@drawable/placeholder_image" />
 
         <Button
             android:id="@+id/selectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#D200B9"
+            android:backgroundTint="#FE00CB"
             android:onClick="selectPhoto"
             android:text="Upload Profile Picture" />
 
