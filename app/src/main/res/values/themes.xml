@@ -2,8 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ChatApplication" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#DFA5B9</item>
+        <item name="colorPrimary">#D200B9</item>
+        <item name="colorButtonNormal">#D200B9</item>
     </style>
-
+    <color name="text">#D200B9</color>
+    <drawable name="bg">@drawable/bglight</drawable>
+    <drawable name="mode_ic">@drawable/ic_day</drawable>
+    <string name="mode">Day mode</string>
     <style name="Theme.ChatApplication" parent="Base.Theme.ChatApplication" />
 </resources>

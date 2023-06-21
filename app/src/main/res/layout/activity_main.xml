@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/bglight"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -28,52 +28,60 @@
             app:srcCompat="@drawable/img_1" />
 
         <EditText
+            android:drawableStart="@drawable/baseline_account_circle_24"
+            android:background="@drawable/input_bubble"
             android:id="@+id/txtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Username"
+            android:hint=" Username"
             android:inputType="textPersonName"
             android:padding="9dp"
-            android:textColor="@color/black" />
+            android:textColorHint="@color/text"/>
 
         <EditText
+            android:drawableStart="@drawable/baseline_password_24"
+            android:background="@drawable/input_bubble"
             android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Password"
+            android:hint=" Password"
             android:inputType="textPassword"
             android:padding="9dp"
-            android:textColor="@color/black" />
+            android:textColorHint="@color/text"/>
 
         <EditText
+            android:drawableStart="@drawable/baseline_password_24"
+            android:background="@drawable/input_bubble"
             android:id="@+id/txtPasswordConf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Password Confirmation"
+            android:hint=" Password Confirmation"
             android:inputType="textPassword"
             android:padding="9dp"
-            android:textColor="@color/black" />
+            android:textColorHint="@color/text" />
 
         <EditText
+            android:drawableStart="@drawable/baseline_account_circle_24"
+            android:background="@drawable/input_bubble"
             android:id="@+id/txtNicName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="Display Name"
+            android:hint=" Display Name"
             android:inputType="textPersonName"
             android:padding="9dp"
-            android:textColor="@color/black" />
+            android:textColorHint="@color/text" />
 
         <ImageView
             android:id="@+id/ProfilePic"
@@ -87,7 +95,6 @@
             android:id="@+id/selectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FE00CB"
             android:onClick="selectPhoto"
             android:text="Upload Profile Picture" />
 
@@ -101,7 +108,7 @@
             android:padding="5dp"
             android:paddingTop="5dp"
             android:text="Already Have Account? Click Here!"
-            android:textColor="#D200B9" />
+            android:textColor="@color/text" />
 
 
         <Button
@@ -109,7 +116,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#D200B9"
             android:gravity="center"
             android:padding="15dp"
             android:text="Sign Up"

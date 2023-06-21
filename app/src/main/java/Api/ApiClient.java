@@ -5,9 +5,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://10.0.2.2:12345/api/";
+    private static String BASE_URL = "http://10.0.2.2:12345/api/";
     private static Api.ApiClient instance;
     private static Retrofit retrofit;
+
+    public static String getBaseUrl() {
+        return BASE_URL;
+    }
+
+    public static void setBaseUrl(String baseUrl) {
+        BASE_URL = baseUrl;
+    }
 
     private ApiClient() {
         retrofit = new Retrofit.Builder()

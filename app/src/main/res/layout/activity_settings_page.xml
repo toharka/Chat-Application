@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".SettingsPage"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/modepic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:padding="3dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/mode_ic" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:textStyle="bold"
+            android:background="@drawable/input_bubble"
+            android:id="@+id/switch1"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:switchPadding="10dp"
+            android:checked="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text"
+            android:text="@string/mode" />
+
+
+        <EditText
+            android:id="@+id/txtServerAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/input_bubble"
+            android:ems="10"
+            android:hint="Server Address"
+            android:padding="9dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text" />
+
+        <Button
+            android:id="@+id/btnServerAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Change Server Address"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
