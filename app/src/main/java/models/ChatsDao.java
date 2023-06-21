@@ -18,6 +18,7 @@ public interface ChatsDao {
 
     @Query("SELECT * FROM ChatModel WHERE id=:id")
     ChatModel findSingleChat(int id);
-
+    @Query("DELETE FROM ChatModel")
+    void deleteAllChats();
 
 }
