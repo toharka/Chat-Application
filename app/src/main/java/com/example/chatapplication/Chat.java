@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,13 +23,13 @@ import com.example.chatapplication.models.AppDB;
 import com.example.chatapplication.models.MessageDao;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import Adapter.MessageAdapter;
 import Api.ApiClient;
 import Api.ApiReq;
-import Adapter.MessageAdapter;
 import models.Message;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -169,4 +171,37 @@ public class Chat extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu settings) {
+        getMenuInflater().inflate(R.menu.settings, settings);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+
+
+            // Start the SettingsActivity
+            Intent intent = new Intent(this, SettingsPage.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("LastActivity", getClass().getName());
+        editor.apply();
+    }
+
 }

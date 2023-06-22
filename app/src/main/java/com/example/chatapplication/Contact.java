@@ -113,6 +113,13 @@ public class Contact extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id==R.id.settings){
+            // Start the SettingsActivity
+            Intent intent = new Intent(this, SettingsPage.class);
+            startActivity(intent);
+            return true;
+        }
+
         if (id == R.id.logout) {
             Intent intent = new Intent(Contact.this, SignInActivity.class);
             startActivity(intent);
@@ -188,4 +195,15 @@ public class Contact extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("LastActivity", getClass().getName());
+        editor.apply();
+    }
+
 }

@@ -52,6 +52,8 @@ public class SettingsPage extends AppCompatActivity {
 
 // Show the toast
                 toast.show();
+
+
                 Intent intent = new Intent(SettingsPage.this, SignInActivity.class);
 
                 // Start the target activity
@@ -89,8 +91,6 @@ public class SettingsPage extends AppCompatActivity {
             }
         });
     }
-
-
 
 }
 
