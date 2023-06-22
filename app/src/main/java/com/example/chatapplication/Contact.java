@@ -24,7 +24,7 @@ import java.util.Map;
 
 import Api.ApiClient;
 import Api.ApiReq;
-import models.AppDB;
+
 import models.ChatModel;
 import models.ChatsDao;
 import retrofit2.Call;
@@ -37,7 +37,7 @@ public class Contact extends AppCompatActivity {
     private List<ChatModel> chatList;
     private com.example.chatapplication.ChatAdapter chatAdapter;
 
-    AppDB db;
+    com.example.chatapplication.models.AppDB db;
     ChatsDao chatsDao;
 
     @Override
@@ -45,7 +45,7 @@ public class Contact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "AppDB").build();
+        db = Room.databaseBuilder(getApplicationContext(), com.example.chatapplication.models.AppDB.class, "AppDB").build();
         chatsDao = db.chatsDao();
         new Thread(new Runnable() {
             @Override

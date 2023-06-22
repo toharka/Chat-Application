@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import models.ChatModel;
+import models.Message;
 import models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,7 +34,10 @@ public interface ApiReq {
     @POST("Chats")
     Call<ChatModel> createChat(@Header("Authorization") String token, @Body Map<String, String> user);
 
+    @POST("Chats/{chatId}/Messages")
+    Call<Message> sendMessage(@Header("Authorization") String token, @Path("chatId") int chatId, @Body Map<String, String> body);
 
-
+    @GET("Chats/{chatId}/Messages")
+    Call<List<Message>> getChatMessages(@Header("Authorization") String token, @Path("chatId") int chatId);
 
 }

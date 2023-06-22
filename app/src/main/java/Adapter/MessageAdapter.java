@@ -15,13 +15,15 @@ import models.Message;
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Message> messageList;
-
-    public MessageAdapter(List<Message> messageList) {
+    private String currentUsername;
+    public MessageAdapter(List<Message> messageList, String currentUsername) {  // Modify the constructor
         this.messageList = messageList;
+        this.currentUsername = currentUsername;  // Set the current username
     }
 
     public class SentMessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText;
+
         public SentMessageViewHolder(View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.senderTxt);
@@ -31,6 +33,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class ReceivedMessageViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, timeText;
+
         public ReceivedMessageViewHolder(View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.rcvTxt);
@@ -55,10 +58,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Message message = messageList.get(position);
         if (holder instanceof SentMessageViewHolder) {
             ((SentMessageViewHolder) holder).messageText.setText(message.getContent());
-            ((SentMessageViewHolder) holder).timeText.setText(message.time);
+            ((SentMessageViewHolder) holder).timeText.setText(message.getTime());  // Changed
         } else if (holder instanceof ReceivedMessageViewHolder) {
             ((ReceivedMessageViewHolder) holder).messageText.setText(message.getContent());
-            ((ReceivedMessageViewHolder) holder).timeText.setText(message.time);
+            ((ReceivedMessageViewHolder) holder).timeText.setText(message.getTime());  // Changed
         }
     }
 
@@ -70,6 +73,12 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         Message message = messageList.get(position);
-        return message.isReceived ? 1 : 0;
+        return message.getSenderUsername().equals(currentUsername) ? 0 : 1;  // Use the sender's username to determine view type
     }
+
+    public void addMessage(Message message) {
+        messageList.add(message);
+        notifyItemInserted(messageList.size() - 1);
+    }
+
 }
