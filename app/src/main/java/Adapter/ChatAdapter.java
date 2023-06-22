@@ -1,6 +1,7 @@
 package com.example.chatapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,10 +53,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         }
         byte[] imageBytes = Base64.decode(user.getProfilePic(), Base64.DEFAULT);
         Glide.with(context).load(imageBytes).into(holder.profile);
-        // Use Glide to load the profile picture from its URL
-//        Glide.with(context)
-//                .load(user.getProfilePic())
-//                .into(holder.profile);
+
+
     }
 
     @Override
@@ -73,6 +72,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             profile = itemView.findViewById(R.id.profile);
             userName = itemView.findViewById(R.id.UserName);
             lastMessage = itemView.findViewById(R.id.lastMessage);
+
+            // Add a click listener
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    ChatModel chatModel = chatModels.get(position);
+                    Intent intent = new Intent(context, Chat.class);
+                    intent.putExtra("displayName", chatModel.getUser().getDisplayName());
+                    intent.putExtra("chatId", chatModel.getId());
+                    intent.putExtra("profilePic", chatModel.getUser().getProfilePic());
+
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

@@ -1,39 +1,76 @@
-    package models;
+package models;
 
-    public class Message {
-        public String text;
-        public String time;
-        public boolean isReceived;  // true if received, false if sent
-        private int id;
-        private String created;
-        private String content;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-        public Message(String text, int id, String created, String content) {
-            this.text = text;
-            this.id = id;
-            this.created = created;
-            this.content = content;
-        }
+@Entity
+public class Message {
 
-        public Message(String text, String time, boolean isReceived) {
-            this.text = text;
-            this.time = time;
-            this.isReceived = isReceived;
-        }
-        public int getId() {
-            return id;
-        }
-
-        public String getCreated() {
-            return created;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-
-        public String getText() {
-            return text;
-        }
+    @PrimaryKey
+    private int id;
+    private int chatId;  // Added this line
+    private String content;
+    private String time;
+    private boolean isReceived;
+    private String created;
+    private String senderUsername;
+    public String getSenderUsername() {
+        return senderUsername;
     }
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+    public Message() {
+        // Empty constructor needed for Room
+    }
+
+    // Getter and Setter methods
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public boolean isReceived() {
+        return isReceived;
+    }
+
+    public void setReceived(boolean received) {
+        isReceived = received;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+}
