@@ -57,11 +57,11 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = messageList.get(position);
         if (holder instanceof SentMessageViewHolder) {
-            ((SentMessageViewHolder) holder).messageText.setText(message.getContent());
-            ((SentMessageViewHolder) holder).timeText.setText(message.getTime());  // Changed
+            ((SentMessageViewHolder)holder).messageText.setText(message.getContent());
+            ((SentMessageViewHolder)holder).timeText.setText(message.getTime());  // Changed
         } else if (holder instanceof ReceivedMessageViewHolder) {
-            ((ReceivedMessageViewHolder) holder).messageText.setText(message.getContent());
-            ((ReceivedMessageViewHolder) holder).timeText.setText(message.getTime());  // Changed
+            ((ReceivedMessageViewHolder)holder).messageText.setText(message.getContent());
+            ((ReceivedMessageViewHolder)holder).timeText.setText(message.getTime());  // Changed
         }
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,10 +29,18 @@ import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
+    SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        sharedPreferences = getSharedPreferences("night",0);
+        Boolean bool = sharedPreferences.getBoolean("night_mode",true);
+        if (bool){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
 
         TextView txtAlreadyHave = findViewById(R.id.txtClickSignUp);
         txtAlreadyHave.setOnClickListener(new View.OnClickListener() {
@@ -134,16 +143,6 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("LastActivity", getClass().getName());
-        editor.apply();
     }
 
 

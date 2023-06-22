@@ -29,7 +29,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         this.chatModels = chatModels;
     }
 
-
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,15 +45,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         // Replace your text views and profile picture with the data from the server
         holder.userName.setText(user.getDisplayName());
         if (message!=null) {
-            holder.lastMessage.setText(message.getContent());
+            holder.lastMessage.setText(message.getContent()+"\n"+message.getTime());
         }
         else {
             holder.lastMessage.setText("No messages yet");
         }
         byte[] imageBytes = Base64.decode(user.getProfilePic(), Base64.DEFAULT);
         Glide.with(context).load(imageBytes).into(holder.profile);
-
-
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.chatapplication;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,11 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import Api.ApiClient;
 
 public class SettingsPage extends AppCompatActivity {
 
-    private SwitchCompat nightModeSwitch;
+
     SharedPreferences sharedPreferences = null;
 
     @Override
@@ -28,46 +30,54 @@ public class SettingsPage extends AppCompatActivity {
         setContentView(R.layout.activity_settings_page);
 
         EditText txtServerAddress = findViewById(R.id.txtServerAddress);
-        txtServerAddress.setHint("Current Server Address:\n"+ ApiClient.getBaseUrl());
+        txtServerAddress.setHint("Current Server Address:\n" + ApiClient.getBaseUrl());
 
-        @SuppressLint("UseButton")
+
         Button btnServerAdd = findViewById(R.id.btnServerAdd);
         btnServerAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApiClient.setBaseUrl(txtServerAddress.getText().toString());
-                txtServerAddress.setHint("Current Server Address:\n"+ ApiClient.getBaseUrl());
-                txtServerAddress.setText("");
-                // Create a LayoutInflater object
-                LayoutInflater inflater = getLayoutInflater();
+
+                if (isValidBaseUrl(txtServerAddress.getText().toString())){
+                    ApiClient.setBaseUrl(txtServerAddress.getText().toString());
+                    txtServerAddress.setHint("Current Server Address:\n" + ApiClient.getBaseUrl());
+                    txtServerAddress.setText("");
+                    // Create a LayoutInflater object
+                    LayoutInflater inflater = getLayoutInflater();
 
 // Inflate the custom toast layout
-                View layout = inflater.inflate(R.layout.toast_loading,
-                findViewById(R.id.custom_toast_container));
+                    View layout = inflater.inflate(R.layout.toast_loading,
+                            findViewById(R.id.custom_toast_container));
 
 // Create a new Toast and set the custom layout
-                Toast toast = new Toast(getApplicationContext());
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(layout);
+                    Toast toast = new Toast(getApplicationContext());
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.setView(layout);
 
 // Show the toast
-                toast.show();
+                    toast.show();
 
+                    // Create and start the intent after the delay
+                    Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
 
-                Intent intent = new Intent(SettingsPage.this, SignInActivity.class);
+                }
 
-                // Start the target activity
-                startActivity(intent);
-
+                else {
+                    Toast.makeText(SettingsPage.this, "Invalid Server Address!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
 
+        SwitchCompat nightModeSwitch;
         nightModeSwitch = findViewById(R.id.switch1);
 
-        sharedPreferences = getSharedPreferences("night",0);
-        Boolean bool = sharedPreferences.getBoolean("night_mode",true);
-        if (bool){
+        sharedPreferences = getSharedPreferences("night", 0);
+        Boolean bool = sharedPreferences.getBoolean("night_mode", true);
+        if (bool) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             nightModeSwitch.setChecked(true);
         }
@@ -79,19 +89,28 @@ public class SettingsPage extends AppCompatActivity {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     nightModeSwitch.setChecked(true);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("night_mode",true);
+                    editor.putBoolean("night_mode", true);
                     editor.commit();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     nightModeSwitch.setChecked(false);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("night_mode",false);
+                    editor.putBoolean("night_mode", false);
                     editor.commit();
                 }
             }
         });
     }
 
+    public boolean isValidBaseUrl(String baseUrl) {
+        try {
+            URL url = new URL(baseUrl);
+            // Additional validation can be performed if needed
+            return true;
+        } catch (MalformedURLException e) {
+            return false;
+        }
+    }
+
+
 }
-
-

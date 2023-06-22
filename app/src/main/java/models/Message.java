@@ -3,6 +3,9 @@ package models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Entity
 public class Message {
 
@@ -14,12 +17,15 @@ public class Message {
     private boolean isReceived;
     private String created;
     private String senderUsername;
+
     public String getSenderUsername() {
         return senderUsername;
     }
+
     public void setSenderUsername(String senderUsername) {
         this.senderUsername = senderUsername;
     }
+
     public Message() {
         // Empty constructor needed for Room
     }
@@ -51,7 +57,18 @@ public class Message {
     }
 
     public String getTime() {
-        return time;
+
+        LocalDateTime dateTime = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            dateTime = LocalDateTime.parse(getCreated(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        }
+        String hourAndMinute = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            hourAndMinute = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+        return hourAndMinute;
+
+
     }
 
     public void setTime(String time) {

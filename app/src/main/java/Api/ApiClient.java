@@ -18,6 +18,7 @@ public class ApiClient {
     }
 
     private ApiClient() {
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -35,4 +36,3 @@ public class ApiClient {
         return retrofit.create(ApiReq.class);
     }
 }
-
