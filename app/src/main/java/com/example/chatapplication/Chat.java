@@ -1,16 +1,19 @@
 package com.example.chatapplication;
+
+import android.content.Intent;
 import android.os.Bundle;
-import models.Message;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.chatapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Adapter.MessageAdapter;
+import models.Message;
 
 public class Chat extends AppCompatActivity {
 
@@ -37,4 +40,25 @@ public class Chat extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu settings) {
+        getMenuInflater().inflate(R.menu.settings, settings);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // Start the SettingsActivity
+            Intent intent = new Intent(this, SettingsPage.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -197,6 +199,27 @@ public class MainActivity extends AppCompatActivity {
         String base64Image = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return base64Image;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu settings) {
+        getMenuInflater().inflate(R.menu.settings, settings);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // Start the SettingsActivity
+            Intent intent = new Intent(this, SettingsPage.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 
 

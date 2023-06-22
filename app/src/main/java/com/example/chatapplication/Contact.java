@@ -68,6 +68,13 @@ public class Contact extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        if (id==R.id.settings){
+            // Start the SettingsActivity
+            Intent intent = new Intent(this, SettingsPage.class);
+            startActivity(intent);
+            return true;
+        }
+
         // logout menu item selected
         if (id == R.id.logout) {
             Intent intent = new Intent(Contact.this, SignInActivity.class);
