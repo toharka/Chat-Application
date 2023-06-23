@@ -24,6 +24,9 @@ public interface ApiReq {
     @POST("Tokens")
     Call<ResponseBody> connection(@Body Map<String, String> credentials);
 
+    @POST("device")
+    Call<ResponseBody> sentDeviceToken (@Body  Map<String, String> credentials);
+
     @GET("users/{username}")
     Call<ResponseBody> getUserInfo(@Header("Authorization") String token, @Path("username") String username);
 

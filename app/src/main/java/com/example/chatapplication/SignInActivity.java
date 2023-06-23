@@ -3,6 +3,7 @@ package com.example.chatapplication;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -103,6 +104,8 @@ public class SignInActivity extends AppCompatActivity {
                             try {
                                 if (response.code()==200){
 
+                                    sendRegistrationToServer(txtUsername.getText().toString());
+
                                     // Assume that your server returns the token as a string in the response body
                                     String token = response.body().string();
                                     System.out.printf(token);
@@ -168,6 +171,50 @@ public class SignInActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private void sendRegistrationToServer(String username) {
+        Map<String, String> deviceDetails = new HashMap<>();
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+//                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
 
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("tokenDevice", token);
+                        editor.apply();
+                        deviceDetails.put("username", username);  // replace with the actual username
+                        deviceDetails.put("token", token);
+
+                        Call<ResponseBody> call = ApiClient.getInstance().getApiInterface().sentDeviceToken(deviceDetails);
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Log.d("FCM", "Token sent to server");
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("FCM", "Failed to send token to server", t);
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
+
+
+
+
+    }
 
 }
