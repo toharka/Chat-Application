@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -36,10 +37,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int GALLERY_REQ_CODE = 1;
     ImageView  ProfilePic;
     Uri profilePicUrl = null;
+    SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences("night",0);
+        boolean bool = sharedPreferences.getBoolean("night_mode",true);
+        if (bool){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
         TextView txtAlreadyHave = findViewById(R.id.txtAlreadyHave);
         txtAlreadyHave.setOnClickListener(new View.OnClickListener() {

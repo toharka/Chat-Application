@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -39,11 +40,16 @@ public class Contact extends AppCompatActivity {
 
     com.example.chatapplication.models.AppDB db;
     ChatsDao chatsDao;
-
+    SharedPreferences sharedPreferences = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
+        sharedPreferences = getSharedPreferences("night",0);
+        boolean bool = sharedPreferences.getBoolean("night_mode",true);
+        if (bool){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 
         db = Room.databaseBuilder(getApplicationContext(), com.example.chatapplication.models.AppDB.class, "AppDB").build();
         chatsDao = db.chatsDao();

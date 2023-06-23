@@ -37,6 +37,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
     SharedPreferences sharedPreferences = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
