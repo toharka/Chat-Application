@@ -57,7 +57,7 @@ public class SignInActivity extends AppCompatActivity {
                         String token = task.getResult();
 
 //                        Log.d(TAG, msg);
-                        Toast.makeText(SignInActivity.this, token, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(SignInActivity.this, token, Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -96,6 +96,7 @@ public class SignInActivity extends AppCompatActivity {
                 credentials.put("username", txtUsername.getText().toString());
                 credentials.put("password", txtPassword.getText().toString());
                 // Inside the onResponse() of the sign-in call
+
                 Call<ResponseBody> call = ApiClient.getInstance().getApiInterface().
                         connection(credentials);
                 call.enqueue(new Callback<ResponseBody>() {
@@ -143,6 +144,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         // Handle failure
+                        Toast.makeText(SignInActivity.this, "problem in Server", Toast.LENGTH_SHORT).show();
                         t.printStackTrace();
                     }
                 });

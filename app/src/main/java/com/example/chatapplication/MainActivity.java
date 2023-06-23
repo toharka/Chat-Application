@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
                             // The request did not even reach the server, handle the failure
                             System.out.println("Request did not reach the server");
+                            Toast.makeText(MainActivity.this, "problem in Server", Toast.LENGTH_SHORT).show();
                             t.printStackTrace();
                         }
                     });
@@ -207,15 +208,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("LastActivity", getClass().getName());
-        editor.apply();
     }
 
 }

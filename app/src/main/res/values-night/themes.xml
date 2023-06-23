@@ -7,7 +7,7 @@
         <item name="colorButtonNormal">#ED81FF</item>
     </style>
     <color name="text">#ED81FF</color>
-    <drawable name="bglight">@drawable/bgdark</drawable>
+    <drawable name="bg">@drawable/bgdark</drawable>
     <drawable name="mode_ic">@drawable/ic_night</drawable>
     <string name="mode">Night mode</string>
     <style name="Theme.ChatApplication" parent="Base.Theme.ChatApplication" />
