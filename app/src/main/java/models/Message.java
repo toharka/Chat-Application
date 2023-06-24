@@ -15,7 +15,7 @@ public class Message {
 
     @PrimaryKey
     private int id;
-    private int chatId;  // Added this line
+    private int chatId;
     private String content;
     private String time;
     private boolean isReceived;

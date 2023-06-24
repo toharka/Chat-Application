@@ -65,7 +65,7 @@ public class Chat extends AppCompatActivity {
         chatId = getIntent().getIntExtra("chatId", -1);
 
         // Initialize database
-        appDB = Room.databaseBuilder(getApplicationContext(), AppDB.class, "database-name").build();
+        appDB = AppDB.getInstance(getApplicationContext());
         messageDao = appDB.messageDao();
 
         ImageView backArrow = findViewById(R.id.BArrow);
