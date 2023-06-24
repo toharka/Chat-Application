@@ -5,8 +5,6 @@ import androidx.room.PrimaryKey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -73,6 +71,51 @@ public class Message {
             return targetFormat.format(date);
         } else {
             return null;
+        }
+    }
+
+
+    public String getHoursMinutes() {
+        String time = getCreated();
+        try {
+            // Create a SimpleDateFormat object with the input format
+            SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+
+            // Parse the input time string into a Date object
+            Date date = inputFormat.parse(time);
+
+            // Create a new SimpleDateFormat object for the desired output format
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm");
+
+            // Format the Date object to get the hours and minutes
+            return outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Handle parsing error
+        }
+    }
+
+    public String getHoursMinutesDayOfWeek() {
+        String time = getCreated();
+        try {
+            // Create a SimpleDateFormat object with the input format
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+
+            // Parse the input time string into a Date object
+            Date date = inputFormat.parse(time);
+
+            // Create a new SimpleDateFormat object for the desired output formats
+            SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm", Locale.US);
+            SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE", Locale.US);
+
+            // Format the Date object to get the hours, minutes, and day of the week
+            String hoursMinutes = outputFormat.format(date);
+            String dayOfWeek = dayOfWeekFormat.format(date);
+
+            return dayOfWeek+" "+hoursMinutes;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Handle parsing error
         }
     }
 

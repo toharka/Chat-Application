@@ -167,6 +167,7 @@ public class SignInActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             // Start the SettingsActivity
+
             Intent intent = new Intent(this, SettingsPage.class);
             startActivity(intent);
             return true;

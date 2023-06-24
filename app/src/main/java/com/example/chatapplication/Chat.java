@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
 import com.example.chatapplication.models.AppDB;
@@ -191,7 +190,6 @@ public class Chat extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-
 
             // Start the SettingsActivity
             Intent intent = new Intent(this, SettingsPage.class);

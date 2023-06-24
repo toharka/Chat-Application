@@ -2,21 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:background="@drawable/input_bubble"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:cardCornerRadius="48dp"
         android:layout_marginLeft="5dp">
 
         <ImageView
             android:id="@+id/profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
     <LinearLayout

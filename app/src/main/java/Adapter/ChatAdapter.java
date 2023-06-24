@@ -45,7 +45,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         // Replace your text views and profile picture with the data from the server
         holder.userName.setText(user.getDisplayName());
         if (message!=null) {
-            holder.lastMessage.setText(message.getContent()+"\n"+message.getTime());
+            holder.lastMessage.setText(message.getContent()+"\n"+message.getHoursMinutesDayOfWeek());
         }
         else {
             holder.lastMessage.setText("No messages yet");

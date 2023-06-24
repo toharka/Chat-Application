@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -91,6 +93,7 @@ public class SettingsPage extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("night_mode", true);
                     editor.commit();
+                    return;
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     nightModeSwitch.setChecked(false);
@@ -100,6 +103,28 @@ public class SettingsPage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu settings) {
+        getMenuInflater().inflate(R.menu.back, settings);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.last_act) {
+            // Return to the previous activity without creating a new instance of SettingsPage
+
+            // Call finish() to return to the previous activity
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public boolean isValidBaseUrl(String baseUrl) {
