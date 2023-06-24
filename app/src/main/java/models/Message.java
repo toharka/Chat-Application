@@ -3,15 +3,19 @@ package models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 @Entity
 public class Message {
 
     @PrimaryKey
     private int id;
-    private int chatId;  // Added this line
+    private int chatId;
     private String content;
     private String time;
     private boolean isReceived;
@@ -57,18 +61,19 @@ public class Message {
     }
 
     public String getTime() {
-
-        LocalDateTime dateTime = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            dateTime = LocalDateTime.parse(getCreated(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        SimpleDateFormat originalFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss 'GMT'Z yyyy", Locale.ENGLISH);
+        SimpleDateFormat targetFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = originalFormat.parse(getCreated());
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        String hourAndMinute = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            hourAndMinute = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        if (date != null) {
+            return targetFormat.format(date);
+        } else {
+            return null;
         }
-        return hourAndMinute;
-
-
     }
 
     public void setTime(String time) {
