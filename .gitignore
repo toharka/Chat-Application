@@ -1,0 +1,15 @@
+
+/node_modules
+
+
+/.pnp
+/.pnp
+
+*.log
+
+
+tmp/
+
+
+config.ini
+secrets.txt
