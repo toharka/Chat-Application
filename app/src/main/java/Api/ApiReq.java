@@ -11,6 +11,7 @@ import models.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -23,7 +24,8 @@ public interface ApiReq {
 
     @POST("Tokens")
     Call<ResponseBody> connection(@Body Map<String, String> credentials);
-
+    @DELETE("device/{username}")
+    Call<ResponseBody> deleteToken(@Path("username") String username);
     @POST("device")
     Call<ResponseBody> sentDeviceToken (@Body  Map<String, String> credentials);
 

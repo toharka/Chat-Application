@@ -1,5 +1,6 @@
 package models;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -21,4 +22,6 @@ public interface ChatsDao {
     @Query("DELETE FROM ChatModel")
     void deleteAllChats();
 
+    @Query("SELECT * FROM ChatModel WHERE id = :chatId ")
+    LiveData<List<ChatModel>> getSpecificChats(int chatId);
 }

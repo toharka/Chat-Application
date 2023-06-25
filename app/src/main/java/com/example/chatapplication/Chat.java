@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.Observer;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -79,7 +80,20 @@ public class Chat extends AppCompatActivity {
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed(); // go back to the previous activity
+                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isNewMessage", true);
+                editor.apply();
+
+                onBackPressed();
+
+
+
+                onBackPressed();
+
+                // Send broadcast to inform Contact activity to refresh the chat list
+                Intent intent = new Intent("NewMessageReceived");
+                LocalBroadcastManager.getInstance(Chat.this).sendBroadcast(intent);
             }
         });
 
@@ -113,7 +127,7 @@ public class Chat extends AppCompatActivity {
             }
         });
 
-//        fetchChatMessages(chatId);  // Fetch chat messages from the server
+
 
         messageDao.getMessages(chatId).observe(this, new Observer<List<Message>>() {
             @Override
@@ -141,6 +155,12 @@ public class Chat extends AppCompatActivity {
                     // Set the chatId
                     message.setSenderUsername(currentUsername); // Set sender's username
                     new Thread(() -> messageDao.insertMessage(message)).start();
+
+                    // Send broadcast to inform Contact that a new message has been sent
+                    Intent intent = new Intent("NewMessageReceived");
+                    LocalBroadcastManager.getInstance(Chat.this).sendBroadcast(intent);
+
+
                 } else {
                     Toast.makeText(Chat.this, "Failed to send message", Toast.LENGTH_SHORT).show();
                 }
@@ -151,33 +171,9 @@ public class Chat extends AppCompatActivity {
                 Toast.makeText(Chat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
-    private void fetchChatMessages(int chatId) {
-        Call<List<Message>> call = apiReq.getChatMessages("Bearer " + token, chatId);
-        call.enqueue(new Callback<List<Message>>() {
-            @Override
-            public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
-                if (response.isSuccessful()) {
-                    List<Message> messages = response.body();
-                    new Thread(() -> {
-                        for (Message message : messages) {
-                            message.setChatId(chatId);
-                            // Set the chatId
-                            messageDao.insertMessage(message);
-                        }
-                    }).start();
-                } else {
-                    Toast.makeText(Chat.this, "Failed to fetch messages", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
-                Toast.makeText(Chat.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu settings) {

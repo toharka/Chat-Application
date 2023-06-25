@@ -2,12 +2,14 @@ package com.example.chatapplication;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.room.Room;
 
 import com.example.chatapplication.models.AppDB;
@@ -76,7 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
                 String currentDateAndTime = sdf.format(new Date());
                 message.setCreated(currentDateAndTime);
-                message.setCreated(new Date().toString());  // adjust if necessary
+                message.setCreated(new Date().toString());
                 message.setReceived(true);  // this is a received message
 
                 // add the new message to your local database
@@ -88,6 +90,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }).start();
             }
         }
+        Intent intent = new Intent("NewMessageReceived");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     private void createNotificationChannel() {
@@ -103,4 +107,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
 }
 }
+
+
 }

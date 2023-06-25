@@ -1,8 +1,11 @@
 package com.example.chatapplication;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -28,6 +32,7 @@ import Api.ApiReq;
 
 import models.ChatModel;
 import models.ChatsDao;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,60 +58,8 @@ public class Contact extends AppCompatActivity {
 
         db = Room.databaseBuilder(getApplicationContext(), com.example.chatapplication.models.AppDB.class, "AppDB").build();
         chatsDao = db.chatsDao();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                chatsDao.deleteAllChats();
-            }
-        }).start();
-        chatRV = findViewById(R.id.chatRV);
-        chatList = new ArrayList<>();
-        chatAdapter = new com.example.chatapplication.ChatAdapter(Contact.this, chatList);
-        chatRV.setLayoutManager(new LinearLayoutManager(Contact.this));
-        chatRV.setAdapter(chatAdapter);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
-
-        if (token.isEmpty()) {
-            Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // Add this in your onCreate method, after you check if the token is empty
-        ApiReq apiReq = ApiClient.getInstance().getApiInterface();
-        Call<List<ChatModel>> call = apiReq.getChats("Bearer " + token);
-        call.enqueue(new Callback<List<ChatModel>>() {
-            @Override
-            public void onResponse(Call<List<ChatModel>> call, Response<List<ChatModel>> response) {
-                if(response.isSuccessful()) {
-                    List<ChatModel> fetchedChats = response.body();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (ChatModel chatModel : fetchedChats) {
-                                chatsDao.insert(chatModel); // Insert fetched chats into local DB
-                            }
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new GetChatsTask().execute(); // Now fetch chats from local DB for display
-                                }
-                            });
-                        }
-                    }).start();
-                } else {
-                    Toast.makeText(Contact.this, "Unable to fetch chats: " + response.code(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ChatModel>> call, Throwable t) {
-                Toast.makeText(Contact.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        new GetChatsTask().execute();
+        refreshChats();
     }
 
     @Override
@@ -127,6 +80,34 @@ public class Contact extends AppCompatActivity {
         }
 
         if (id == R.id.logout) {
+            // Get the username
+            SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+            String currentUsername = sharedPreferences.getString("username", "");
+
+            // Call API to delete token
+            ApiReq apiReq = ApiClient.getInstance().getApiInterface();
+            Call<ResponseBody> call = apiReq.deleteToken(currentUsername);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if(response.isSuccessful()) {
+                        // After successfully deleting token, navigate to SignInActivity
+                        Intent intent = new Intent(Contact.this, SignInActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(Contact.this, SignInActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(Contact.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
             Intent intent = new Intent(Contact.this, SignInActivity.class);
             startActivity(intent);
             finish();
@@ -205,11 +186,97 @@ public class Contact extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("LastActivity", getClass().getName());
         editor.apply();
     }
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Do something here when a new message is received
+            refreshChats();
+        }
+    };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register the receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("NewMessageReceived"));
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        boolean isNewMessage = sharedPreferences.getBoolean("isNewMessage", false);
+        if (isNewMessage) {
+            refreshChats();
+
+            // Reset new message flag
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isNewMessage", false);
+            editor.apply();
+        }
+    }
+
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        // Refresh your data here
+    }
+
+
+    public void refreshChats() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                chatsDao.deleteAllChats();
+            }
+        }).start();
+        chatRV = findViewById(R.id.chatRV);
+        chatList = new ArrayList<>();
+        chatAdapter = new com.example.chatapplication.ChatAdapter(Contact.this, chatList);
+        chatRV.setLayoutManager(new LinearLayoutManager(Contact.this));
+        chatRV.setAdapter(chatAdapter);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
+
+        if (token.isEmpty()) {
+            Toast.makeText(this, "No token found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ApiReq apiReq = ApiClient.getInstance().getApiInterface();
+        Call<List<ChatModel>> call = apiReq.getChats("Bearer " + token);
+        call.enqueue(new Callback<List<ChatModel>>() {
+            @Override
+            public void onResponse(Call<List<ChatModel>> call, Response<List<ChatModel>> response) {
+                if(response.isSuccessful()) {
+                    List<ChatModel> fetchedChats = response.body();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (ChatModel chatModel : fetchedChats) {
+                                chatsDao.insert(chatModel); // Insert fetched chats into local DB
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new GetChatsTask().execute(); // Now fetch chats from local DB for display
+                                }
+                            });
+                        }
+                    }).start();
+                } else {
+                    Toast.makeText(Contact.this, "Unable to fetch chats: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ChatModel>> call, Throwable t) {
+                Toast.makeText(Contact.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        new GetChatsTask().execute(); // Fetch the updated chats from the local DB
+    }
 }
