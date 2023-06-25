@@ -203,7 +203,7 @@ public class Contact extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        // Register the receiver
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("NewMessageReceived"));
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         boolean isNewMessage = sharedPreferences.getBoolean("isNewMessage", false);
@@ -273,7 +273,7 @@ public class Contact extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ChatModel>> call, Throwable t) {
-                Toast.makeText(Contact.this, "Failure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Contact.this, "Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
