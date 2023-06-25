@@ -15,7 +15,6 @@
 local.properties
 /node_modules
 /.pnp
-/.pnp
 *.log
 tmp/
 config.ini
