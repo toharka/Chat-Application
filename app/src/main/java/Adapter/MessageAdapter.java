@@ -52,7 +52,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return new ReceivedMessageViewHolder(itemView);
         }
     }
-
+//
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Message message = messageList.get(position);

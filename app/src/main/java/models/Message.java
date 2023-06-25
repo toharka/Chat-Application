@@ -74,7 +74,7 @@ public class Message {
         }
     }
 
-
+//
     public String getHoursMinutes() {
         String time = getCreated();
         try {
